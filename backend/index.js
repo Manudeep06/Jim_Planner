@@ -13,7 +13,7 @@ app.use(express.json());
 // Mock AI diet plan generator
 const generateMockDietPlan = (email, foodItems) => {
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  
+
   const mealTemplates = {
     breakfast: [
       'Oatmeal with berries and nuts',
@@ -89,8 +89,8 @@ app.post('/generate-diet', (req, res) => {
     }
 
     // Validate food items
-    const validItems = items.filter(item => 
-      item.name && typeof item.name === 'string' && 
+    const validItems = items.filter(item =>
+      item.name && typeof item.name === 'string' &&
       item.grams && typeof item.grams === 'number' && item.grams > 0
     );
 
@@ -120,7 +120,12 @@ app.get('/health', (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-  console.log(`Health check available at: http://localhost:${PORT}/health`);
-});
+// Start server
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+    console.log(`Health check available at: http://localhost:${PORT}/health`);
+  });
+}
+
+module.exports = app;
