@@ -23,5 +23,5 @@ export interface DietPlan {
   id: string;
   email: string;
   createdAt: string;
-  plan: DayPlan[];
+  plan: string;
 }
