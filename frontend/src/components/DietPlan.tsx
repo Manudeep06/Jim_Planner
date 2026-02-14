@@ -1,5 +1,5 @@
 import React from 'react';
-import { DietPlan as DietPlanType, DayPlan } from '../types';
+import { DietPlan as DietPlanType } from '../types';
 import './DietPlan.css';
 
 interface DietPlanProps {
@@ -17,67 +17,12 @@ const DietPlan: React.FC<DietPlanProps> = ({ dietPlan }) => {
     });
   };
 
-  const DayPlanCard: React.FC<{ dayPlan: DayPlan; dayNumber: number }> = ({ dayPlan, dayNumber }) => {
-    return (
-      <div className="day-card">
-        <h3 className="day-title">Day {dayNumber}: {dayPlan.day}</h3>
-        
-        <div className="nutrition-grid">
-          <div className="nutrition-item">
-            <div className="nutrition-value">2,450</div>
-            <div className="nutrition-label">Calories</div>
-          </div>
-          <div className="nutrition-item">
-            <div className="nutrition-value">125g</div>
-            <div className="nutrition-label">Protein</div>
-          </div>
-          <div className="nutrition-item">
-            <div className="nutrition-value">180g</div>
-            <div className="nutrition-label">Carbs</div>
-          </div>
-          <div className="nutrition-item">
-            <div className="nutrition-value">65g</div>
-            <div className="nutrition-label">Fat</div>
-          </div>
-        </div>
-
-        <div className="meal-section">
-          <h4 className="meal-title">🌅 Breakfast</h4>
-          <ul className="meal-list">
-            {dayPlan.meals.breakfast.map((meal, index) => (
-              <li key={index} className="meal-item">{meal}</li>
-            ))}
-          </ul>
-        </div>
-        
-        <div className="meal-section">
-          <h4 className="meal-title">☀️ Lunch</h4>
-          <ul className="meal-list">
-            {dayPlan.meals.lunch.map((meal, index) => (
-              <li key={index} className="meal-item">{meal}</li>
-            ))}
-          </ul>
-        </div>
-        
-        <div className="meal-section">
-          <h4 className="meal-title">🌆 Dinner</h4>
-          <ul className="meal-list">
-            {dayPlan.meals.dinner.map((meal, index) => (
-              <li key={index} className="meal-item">{meal}</li>
-            ))}
-          </ul>
-        </div>
-        
-        <div className="meal-section">
-          <h4 className="meal-title">🍎 Snacks</h4>
-          <ul className="meal-list">
-            {dayPlan.meals.snacks.map((meal, index) => (
-              <li key={index} className="meal-item">{meal}</li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    );
+  const getDisplayContent = (plan: string) => {
+    let content = plan;
+    if (content.includes("'''")) {
+      content = content.replace(/'''/g, '');
+    }
+    return content;
   };
 
   return (
@@ -89,10 +34,18 @@ const DietPlan: React.FC<DietPlanProps> = ({ dietPlan }) => {
         </p>
       </div>
 
-      <div>
-        {dietPlan.plan.map((dayPlan, index) => (
-          <DayPlanCard key={index} dayPlan={dayPlan} dayNumber={index + 1} />
-        ))}
+      <div style={{
+        backgroundColor: '#fff',
+        padding: '20px',
+        borderRadius: '8px',
+        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+        marginTop: '20px',
+        whiteSpace: 'pre-wrap',
+        fontFamily: 'monospace',
+        fontSize: '14px',
+        lineHeight: '1.6'
+      }}>
+        {getDisplayContent(dietPlan.plan)}
       </div>
     </div>
   );
