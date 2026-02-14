@@ -1,11 +1,11 @@
 import React from 'react';
 import { DietPlan as DietPlanType } from '../types';
 
-interface PremiumDietTableProps {
+interface PremiumDietDisplayProps {
   dietPlan: DietPlanType;
 }
 
-const PremiumDietTable: React.FC<PremiumDietTableProps> = ({ dietPlan }) => {
+const PremiumDietDisplay: React.FC<PremiumDietDisplayProps> = ({ dietPlan }) => {
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -16,49 +16,39 @@ const PremiumDietTable: React.FC<PremiumDietTableProps> = ({ dietPlan }) => {
     });
   };
 
-  const getMealText = (meals: string[]) => {
-    return meals.join(', ');
+  // Helper to clean up the python code string if possible, or just display as is
+  const getDisplayContent = (plan: string) => {
+    // Basic cleaning to remove the python wrapper if present
+    let content = plan;
+    if (content.includes("'''")) {
+      content = content.replace(/'''/g, '');
+    }
+    return content;
   };
 
   return (
     <div className="diet-table-container">
-      <h2 className="diet-table-title">Your Personalized 7-Day Diet Plan</h2>
+      <h2 className="diet-table-title">Your Personalized Diet Plan</h2>
       <p className="diet-table-subtitle">
         Generated for: <span style={{ fontWeight: '600', color: '#1e293b' }}>{dietPlan.email}</span> • {formatDate(dietPlan.createdAt)}
       </p>
-      
-      <div style={{ overflowX: 'auto', borderRadius: '16px' }}>
-        <table className="premium-table">
-          <thead>
-            <tr>
-              <th>Day</th>
-              <th>Calories</th>
-              <th>Protein</th>
-              <th>Carbs</th>
-              <th>Fat</th>
-              <th>Breakfast</th>
-              <th>Lunch</th>
-              <th>Dinner</th>
-            </tr>
-          </thead>
-          <tbody>
-            {dietPlan.plan.map((dayPlan, index) => (
-              <tr key={index}>
-                <td>{dayPlan.day}</td>
-                <td>2,450</td>
-                <td>125g</td>
-                <td>180g</td>
-                <td>65g</td>
-                <td>{getMealText(dayPlan.meals.breakfast)}</td>
-                <td>{getMealText(dayPlan.meals.lunch)}</td>
-                <td>{getMealText(dayPlan.meals.dinner)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+
+      <div style={{
+        backgroundColor: '#f8fafc',
+        padding: '24px',
+        borderRadius: '16px',
+        border: '1px solid #e2e8f0',
+        marginTop: '20px',
+        whiteSpace: 'pre-wrap',
+        fontFamily: 'monospace',
+        fontSize: '14px',
+        lineHeight: '1.6',
+        color: '#334155'
+      }}>
+        {getDisplayContent(dietPlan.plan)}
       </div>
     </div>
   );
 };
 
-export default PremiumDietTable;
+export default PremiumDietDisplay;

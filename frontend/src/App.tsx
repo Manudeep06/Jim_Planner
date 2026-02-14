@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PremiumFormPanel from './components/PremiumFormPanel';
-import PremiumDietTable from './components/PremiumDietTable';
+import PremiumDietDisplay from './components/PremiumDietTable';
 import PremiumLoadingSpinner from './components/PremiumLoadingSpinner';
 import AnalyticsStrip from './components/AnalyticsStrip';
 import { generateDiet } from './services/api';
@@ -30,7 +30,7 @@ function App() {
       <header className="hero-header">
         <h1>Gym Diet Planner 💪</h1>
         <p>Transform your favorite foods into personalized 7-day diet plans with AI-powered nutrition guidance</p>
-        
+
         <div className="feature-badges">
           <div className="feature-badge">
             <span>✨</span>
@@ -50,16 +50,16 @@ function App() {
       <main>
         {/* Form Panel */}
         <PremiumFormPanel onSubmit={handleFormSubmit} loading={loading} />
-        
+
         {/* Loading State */}
         {loading && <PremiumLoadingSpinner />}
-        
+
         {/* Analytics Strip */}
         {currentPlan && !loading && <AnalyticsStrip />}
-        
+
         {/* Diet Plan Table */}
         {currentPlan && !loading && (
-          <PremiumDietTable dietPlan={currentPlan} />
+          <PremiumDietDisplay dietPlan={currentPlan} />
         )}
       </main>
 
